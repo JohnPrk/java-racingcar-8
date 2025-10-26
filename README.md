@@ -71,7 +71,7 @@
 
 ## 💡 설계 고려사항
 
-구현을 진행하기 앞서서 수행했던 설계 과정을 [**자동차 경주 게임 설계시 고려했던 부분**]([https://github.com/your-username/your-repo/issues/1](https://github.com/JohnPrk/java-racingcar-8/issues/1))에 정리했습니다.
+구현을 진행하기 앞서서 수행했던 설계 과정을 [**자동차 경주 게임 설계시 고려했던 부분**](https://github.com/JohnPrk/java-racingcar-8/issues/1)에 정리했습니다.
 
 - **테스트 용이성**: MoveStrategy 인터페이스로 랜덤 부분 모킹 가능
 - **일급 컬렉션**: Cars가 자동차 목록과 관련 로직 캡슐화
