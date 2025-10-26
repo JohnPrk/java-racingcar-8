@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import racingcar.domain.error.ErrorMessage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -32,7 +33,7 @@ public class CarsTest {
         // when & then
         assertThatThrownBy(() -> new Cars(nullInput))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("자동차 이름을 입력해주세요");
+                .hasMessageContaining(ErrorMessage.INPUT_NULL_ERROR.getMessage());
     }
 
     @ParameterizedTest
@@ -42,7 +43,7 @@ public class CarsTest {
         // when & then
         assertThatThrownBy(() -> new Cars(inputWithEmptyName))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("자동차는 최소 1대 이상이어야 합니다");
+                .hasMessageContaining(ErrorMessage.CARS_EMPTY_ERROR.getMessage());
     }
 
     @Test
@@ -51,7 +52,7 @@ public class CarsTest {
         // when & then
         assertThatThrownBy(() -> new Cars(new String()))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("자동차는 최소 1대 이상이어야 합니다");
+                .hasMessageContaining(ErrorMessage.CARS_EMPTY_ERROR.getMessage());
     }
 
     @Test
@@ -60,6 +61,6 @@ public class CarsTest {
         // when & then
         assertThatThrownBy(() -> new Cars("pobi,pobi,jun"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("자동차 이름은 중복될 수 없습니다");
+                .hasMessageContaining(ErrorMessage.CAR_NAME_DUPLICATE_ERROR.getMessage());
     }
 }
