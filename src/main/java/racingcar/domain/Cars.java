@@ -28,6 +28,19 @@ public class Cars {
         return cars;
     }
 
+    public void moveAll() {
+        for (Car car : cars) {
+            car.tryToMove();
+        }
+    }
+
+    public List<Car> findWinners() {
+        int maxPosition = getMaxPosition();
+        return cars.stream()
+                .filter(car -> car.getPosition() == maxPosition)
+                .collect(Collectors.toList());
+    }
+
     private List<Car> createCarList(List<String> carNames, Supplier<MoveStrategy> moveStrategySupplier) {
         return carNames.stream()
                 .map(name -> new Car(name, moveStrategySupplier.get()))
@@ -60,5 +73,12 @@ public class Cars {
                 throw new IllegalArgumentException(ErrorMessage.CAR_NAME_DUPLICATE_ERROR.getMessage());
             }
         }
+    }
+
+    private int getMaxPosition() {
+        return cars.stream()
+                .mapToInt(Car::getPosition)
+                .max()
+                .orElse(0);
     }
 }
