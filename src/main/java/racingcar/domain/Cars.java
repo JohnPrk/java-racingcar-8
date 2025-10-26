@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class Cars {
     private final List<Car> cars;
+    private int maxPosition;
 
     public Cars(String carNameInput, Supplier<MoveStrategy> moveStrategySupplier) {
         validateInput(carNameInput);
@@ -18,6 +19,7 @@ public class Cars {
         validateSize(carNames);
         validateDuplicates(carNames);
         this.cars = createCarList(carNames, moveStrategySupplier);
+        this.maxPosition = 0;
     }
 
     public Cars(String carNameInput) {
@@ -28,14 +30,20 @@ public class Cars {
         return cars;
     }
 
+    public int getMaxPosition() {
+        return maxPosition;
+    }
+
     public void moveAll() {
         for (Car car : cars) {
             car.tryToMove();
+            if (car.getPosition() > maxPosition) {
+                maxPosition = car.getPosition();
+            }
         }
     }
 
     public List<Car> findWinners() {
-        int maxPosition = getMaxPosition();
         return cars.stream()
                 .filter(car -> car.getPosition() == maxPosition)
                 .collect(Collectors.toList());
@@ -73,12 +81,5 @@ public class Cars {
                 throw new IllegalArgumentException(ErrorMessage.CAR_NAME_DUPLICATE_ERROR.getMessage());
             }
         }
-    }
-
-    private int getMaxPosition() {
-        return cars.stream()
-                .mapToInt(Car::getPosition)
-                .max()
-                .orElse(0);
     }
 }

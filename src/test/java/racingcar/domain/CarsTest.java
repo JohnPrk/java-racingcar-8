@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import racingcar.domain.error.ErrorMessage;
+import racingcar.domain.testDouble.FakeMoveStrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -62,5 +63,31 @@ public class CarsTest {
         assertThatThrownBy(() -> new Cars("pobi,pobi,jun"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorMessage.CAR_NAME_DUPLICATE_ERROR.getMessage());
+    }
+
+    @Test
+    void 자동차_이동시_최대_위치가_실시간으로_업데이트된다() {
+        // given
+        FakeMoveStrategy strategy = new FakeMoveStrategy(new boolean[]{
+                true, false,
+                false, true,
+                false, true,
+                true, true});
+        Cars cars = new Cars("pobi,woni", () -> strategy);
+
+        // when & then
+        assertThat(cars.getMaxPosition()).isEqualTo(0);
+
+        cars.moveAll();
+        assertThat(cars.getMaxPosition()).isEqualTo(1);
+
+        cars.moveAll();
+        assertThat(cars.getMaxPosition()).isEqualTo(1);
+
+        cars.moveAll();
+        assertThat(cars.getMaxPosition()).isEqualTo(2);
+
+        cars.moveAll();
+        assertThat(cars.getMaxPosition()).isEqualTo(3);
     }
 }
