@@ -5,11 +5,14 @@ import racingcar.domain.error.ErrorMessage;
 public class Car {
     private final String name;
     private int position;
+    private final MoveStrategy moveStrategy;
 
-    public Car(String name) {
+
+    public Car(String name, MoveStrategy moveStrategy) {
         validateName(name);
         this.name = name;
         this.position = 0;
+        this.moveStrategy = moveStrategy;
     }
 
     public String getName() {
@@ -20,8 +23,10 @@ public class Car {
         return position;
     }
 
-    public void move() {
-        position++;
+    public void tryToMove() {
+        if (moveStrategy.canMove()) {
+            position++;
+        }
     }
 
     private void validateName(String name) {

@@ -6,26 +6,31 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Cars {
     private final List<Car> cars;
 
-    public Cars(String carNameInput) {
+    public Cars(String carNameInput, Supplier<MoveStrategy> moveStrategySupplier) {
         validateInput(carNameInput);
         List<String> carNames = splitAndParse(carNameInput);
         validateSize(carNames);
         validateDuplicates(carNames);
-        this.cars = createCarList(carNames);
+        this.cars = createCarList(carNames, moveStrategySupplier);
+    }
+
+    public Cars(String carNameInput) {
+        this(carNameInput, RandomMoveStrategy::new);
     }
 
     public List<Car> getCars() {
         return cars;
     }
 
-    private List<Car> createCarList(List<String> carNames) {
+    private List<Car> createCarList(List<String> carNames, Supplier<MoveStrategy> moveStrategySupplier) {
         return carNames.stream()
-                .map(Car::new)
+                .map(name -> new Car(name, moveStrategySupplier.get()))
                 .collect(Collectors.toList());
     }
 
