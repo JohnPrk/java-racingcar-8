@@ -13,7 +13,7 @@ public class Cars {
     public Cars(String carNameInput, Supplier<MoveStrategy> moveStrategySupplier) {
         validateInput(carNameInput);
         List<String> carNames = splitAndParse(carNameInput);
-        validateSize(carNames);
+        validateAnybodyEmpty(carNames);
         validateDuplicates(carNames);
         this.cars = createCarList(carNames, moveStrategySupplier);
         this.maxPosition = 0;
@@ -62,12 +62,9 @@ public class Cars {
         }
     }
 
-    private void validateSize(List<String> carNames) {
-        if (carNames.isEmpty()) {
-            throw new IllegalArgumentException(ErrorMessage.CARS_EMPTY_ERROR.getMessage());
-        }
+    private void validateAnybodyEmpty(List<String> carNames) {
         if (carNames.stream().anyMatch(String::isEmpty)) {
-            throw new IllegalArgumentException(ErrorMessage.CARS_EMPTY_ERROR.getMessage());
+            throw new IllegalArgumentException(ErrorMessage.INPUT_NULL_ERROR.getMessage());
         }
     }
 

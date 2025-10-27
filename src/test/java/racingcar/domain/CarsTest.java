@@ -44,16 +44,16 @@ public class CarsTest {
         // when & then
         assertThatThrownBy(() -> new Cars(inputWithEmptyName))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorMessage.CARS_EMPTY_ERROR.getMessage());
+                .hasMessageContaining(ErrorMessage.INPUT_NULL_ERROR.getMessage());
     }
 
     @Test
     void new_String_빈_문자열_입력시_예외가_발생한다() {
 
         // when & then
-        assertThatThrownBy(() -> new Cars(new String()))
+        assertThatThrownBy(() -> new Cars(""))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorMessage.CARS_EMPTY_ERROR.getMessage());
+                .hasMessageContaining(ErrorMessage.INPUT_NULL_ERROR.getMessage());
     }
 
     @Test
